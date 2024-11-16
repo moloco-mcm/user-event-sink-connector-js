@@ -1,0 +1,57 @@
+{
+  "name": "moloco-mcm-user-event-sink-connector",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/esm/index.js"
+    },
+    "./user-event-sink-connector": {
+      "types": "./dist/types/UserEventSinkConnector.d.ts",
+      "import": "./dist/esm/UserEventSinkConnector.js",
+      "require": "./dist/cjs/UserEventSinkConnector.js",
+      "default": "./dist/esm/UserEventSinkConnector.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc --module esnext --outDir dist/esm",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "docs": "typedoc",
+    "docs:clean": "rm -rf ./docs",
+    "docs:watch": "typedoc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0 license",
+  "description": "",
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@vitest/coverage-v8": "^1.3.1",
+    "rimraf": "^5.0.5",
+    "typedoc": "^0.26.11",
+    "typedoc-plugin-markdown": "^4.2.10",
+    "typescript": "^5.3.3",
+    "vitest": "^1.3.1"
+  },
+  "peerDependencies": {
+    "rollup": "^4.26.0"
+  }
+}
