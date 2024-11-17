@@ -1,23 +1,6 @@
 import UserEventUtils from './UserEventUtils.js';
 import fetch, { Response } from 'node-fetch';
 
-/**
- * Interface representing a user event with required userId and eventType fields.
- * Additional properties are allowed through an index signature.
- */
-interface UserEvent {
-    userId: string;
-    eventType: string;
-    [key: string]: any;  // Allow additional properties
-}
-
-/**
- * Configuration options for event handling.
- */
-interface EventOptions {
-    retry?: boolean;    // Whether to retry failed requests
-    timeout?: number;   // Request timeout in milliseconds
-}
 
 /**
  * A connector class for handling user events in the MCM system.
