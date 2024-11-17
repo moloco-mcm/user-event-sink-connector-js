@@ -1,4 +1,4 @@
-# User Event Processing Library
+# User Event Sink Connector for Javascript (Reference Implementation)
 
 A TypeScript library for validating, processing, and handling user events in a type-safe manner.
 
