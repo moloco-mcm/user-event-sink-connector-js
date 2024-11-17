@@ -17,11 +17,11 @@ This reference implementation demonstrates:
 
 ### Event Data Validation and Sending
 ```typescript
+import { UserEventSinkConnector } from 'user-event-sink-connector';
+
 const platformId = process.env.PLATFORM_ID;
 const apiHostname = process.env.API_HOSTNAME;
 const apiKey = process.env.API_KEY;
-
-import { UserEventSinkConnector } from 'user-event-sink-connector';
 
 const connector = new UserEventSinkConnector(platformId, apiHostname, apiKey);
 await connector.send({
