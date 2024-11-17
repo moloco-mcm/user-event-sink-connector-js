@@ -51,9 +51,15 @@ await connector.send({
 npm install
 ```
 
-#### Run tests
+#### Build the project
 ```bash
-npm test
+npm run build
+```
+
+#### Run tests with coverage
+```bash
+npm run test
+npm run coverage
 ```
 
 #### Generate documentation
@@ -62,16 +68,6 @@ npm run docs
 ```
 Documentation will be available in the `docs` directory.
 
-#### Run tests with coverage
-```bash
-npm run test
-npm run coverage
-```
-
-#### Build the project
-```bash
-npm run build
-```
 
 ## Using This Reference
 
