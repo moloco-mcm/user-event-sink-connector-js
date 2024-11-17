@@ -1,37 +1,33 @@
 # User Event Sink Connector for Javascript (Reference Implementation)
 
-A TypeScript library for validating, processing, and handling user events in a type-safe manner.
+This repository contains a reference implementation for processing and handling user events in TypeScript. It demonstrates best practices for event validation, processing, and type safety.
 
-## Features
+> **Note**: This is a reference implementation intended as a starting point for your own implementation. It is not meant to be used as a library dependency.
 
-- ✅ Type-safe event validation
-- 🔍 Comprehensive event data filtering
-- 🚀 Support for multiple event types (Home, PDP, Search, etc.)
-- 🧪 Fully tested with Vitest
-- 📚 TypeDoc documentation
+## Purpose
 
-## Usage
+This reference implementation demonstrates:
+- ✅ Type-safe event validation patterns
+- 🔍 Event data filtering techniques
+- 🚀 Handling of multiple event types (Home, PDP, Search, etc.)
+- 🧪 Testing practices with Vitest
+- 📚 Documentation approaches using TypeDoc
 
-### Basic Event Validation
+## Implementation Examples
+
+### Event Data Validation and Sending
 ```typescript
+const platformId = process.env.PLATFORM_ID;
+const apiHostname = process.env.API_HOSTNAME;
+const apiKey = process.env.API_KEY;
+
 import { UserEventSinkConnector } from 'user-event-sink-connector';
 
-const connector = new UserEventSinkConnector('PLATFORM_1', 'api.example.com', 'api-key-123');
+const connector = new UserEventSinkConnector(platformId, apiHostname, apiKey);
 await connector.send({
   userId: '123',
   eventType: 'purchase',
   items: [{id: '456', price: 99.99}]
-});
-```
-
-
-### Filtering Null Values
-```typescript
-import { UserEventUtils } from 'user-event-sink-connector';
-
-const utils = new UserEventUtils();
-const filteredData = utils.filterNullValues({
-  a: null, b: 'hello', c: undefined, d: {e: null, f: 'world'}
 });
 ```
 
@@ -77,13 +73,22 @@ npm run coverage
 npm run build
 ```
 
+## Using This Reference
+
+1. Clone or fork this repository
+2. Study the implementation patterns
+3. Adapt the code to your specific needs
+4. Implement your own version following these patterns
+
 ## Contributing
+If you have suggestions for improving this reference implementation:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create your feature branch (`git checkout -b feature/improvement`)
+3. Commit your changes (`git commit -m 'Add some improvement'`)
+4. Push to the branch (`git push origin feature/improvement`)
 5. Open a Pull Request
+
 
 ## License
 © Moloco, Inc. 2024 All rights reserved. Released under Apache 2.0 License
