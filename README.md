@@ -99,6 +99,10 @@ npm run docs
 ```
 Documentation will be available in the `docs` directory.
 
+#### Runnin an example
+```bash
+npm run example
+```
 
 ## Using This Reference
 

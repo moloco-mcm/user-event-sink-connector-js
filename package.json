@@ -35,7 +35,8 @@
     "coverage": "vitest run --coverage",
     "docs": "typedoc",
     "docs:clean": "rm -rf ./docs",
-    "docs:watch": "typedoc --watch"
+    "docs:watch": "typedoc --watch",
+    "example": "node ./src/main.js"
   },
   "keywords": [],
   "author": "",
