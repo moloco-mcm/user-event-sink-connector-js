@@ -95,7 +95,6 @@ async function main() {
                     const response = await connector.send(userEvent);
                     console.log(`Successfully sent event:`, userEvent);
                     // console.log('Response body:', response);
-                    // process.exit(0);
                     break; // Success - exit retry loop
                 } catch (error) {
                     if (error instanceof SyntaxError) {
