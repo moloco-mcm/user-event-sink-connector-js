@@ -7,11 +7,18 @@ This repository contains a reference implementation for processing and handling 
 ## Purpose
 
 This reference implementation demonstrates:
-- ✅ Type-safe event validation patterns
-- 🔍 Event data filtering techniques
-- 🚀 Handling of multiple event types (Home, PDP, Search, etc.)
-- 🧪 Testing practices with Vitest
-- 📚 Documentation approaches using TypeDoc
+- Type-safe event validation patterns
+- Event data filtering techniques
+- Distinguishes between recoverable and non-recoverable errors
+- Implements exponential backoff for transient failures
+- Starts with 100ms delay, doubles after each attempt
+- Limits maximum retries to prevent infinite loops
+- Provides detailed logging for debugging
+
+This pattern is particularly useful for:
+- Handling network instability
+- Managing rate limits
+- Dealing with temporary service unavailability
 
 ## Implementation Examples
 
@@ -31,6 +38,30 @@ await connector.send({
 });
 ```
 
+## Error Handling & Retry Strategy
+This implementation demonstrates best practices for handling API errors with exponential backoff:
+
+### Error Types
+- **SyntaxError**: Thrown when response parsing fails. These errors are immediately thrown as they indicate a fundamental problem that won't be resolved by retrying.
+- **Other Errors**: Network issues, rate limits, etc. These are handled with retries.
+
+### Retry Strategy
+```typescript
+const maxRetries = 3; // Maximum retry attempts
+let waitTime = 100; // Initial wait time (0.1 seconds)
+try {
+    await connector.send(event);
+} catch (error) {
+    if (error instanceof SyntaxError) {
+        throw error; // Don't retry parsing errors
+    }
+    // Exponential backoff for other errors
+    waitTime = 2; // Doubles wait time each attempt
+    // 1st retry: 100ms
+    // 2nd retry: 200ms
+    // 3rd retry: 400ms
+}
+```
 
 ## Supported Event Types
 
