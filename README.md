@@ -1,6 +1,6 @@
 # User Event Sink Connector for Javascript (Reference Implementation)
 
-This repository contains a reference implementation for processing and handling user events in TypeScript. It demonstrates best practices for event validation, processing, and type safety.
+This repository contains a reference implementation for processing and handling user events in TypeScript. It demonstrates best practices for event validation, processing, and type safety.;
 
 ## Purpose
 
@@ -20,7 +20,7 @@ This pattern is particularly useful for:
 
 ## Implementation Examples
 
-### Event Data Validation and Sending
+### Initialize a Connector
 ```typescript
 import { UserEventSinkConnector } from 'user-event-sink-connector';
 
@@ -29,14 +29,9 @@ const apiHostname = process.env.API_HOSTNAME;
 const apiKey = process.env.API_KEY;
 
 const connector = new UserEventSinkConnector(platformId, apiHostname, apiKey);
-await connector.send({
-  userId: '123',
-  eventType: 'purchase',
-  items: [{id: '456', price: 99.99}]
-});
 ```
 
-## Error Handling & Retry Strategy
+## Send Events
 This implementation demonstrates best practices for handling API errors with exponential backoff:
 
 ### Error Types
