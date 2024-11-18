@@ -2,8 +2,6 @@
 
 This repository contains a reference implementation for processing and handling user events in TypeScript. It demonstrates best practices for event validation, processing, and type safety.
 
-> **Note**: This is a reference implementation intended as a starting point for your own implementation. It is not meant to be used as a library dependency.
-
 ## Purpose
 
 This reference implementation demonstrates:
@@ -123,3 +121,6 @@ If you have suggestions for improving this reference implementation:
 
 ## License
 © Moloco, Inc. 2024 All rights reserved. Released under Apache 2.0 License
+
+---
+**Note**: This is a reference implementation intended to demonstrate best practices. You should adapt and modify this code to meet your specific requirements and security needs.
