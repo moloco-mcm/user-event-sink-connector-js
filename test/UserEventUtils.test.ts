@@ -60,7 +60,7 @@ describe('UserEventUtils', () => {
                 expect(() => utils.validateData({
                     ...validBase,
                     event_type: 'ITEM_PAGE_VIEW'
-                })).toThrow('The items field must be a non-empty array for PDP events');
+                })).toThrow('The items field must be a non-empty array');
             });
 
             it('should throw error for empty items array', () => {
@@ -68,7 +68,7 @@ describe('UserEventUtils', () => {
                     ...validBase,
                     event_type: 'ITEM_PAGE_VIEW',
                     items: []
-                })).toThrow('The items field must be a non-empty array for PDP events');
+                })).toThrow('The items field must be a non-empty array');
             });
 
             it('should accept valid ITEM_PAGE_VIEW data', () => {

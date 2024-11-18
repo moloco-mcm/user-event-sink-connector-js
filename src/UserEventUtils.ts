@@ -90,7 +90,7 @@ class UserEventUtils {
      */
     testPDP(data: Record<string, any>) {
         if (!Array.isArray(data.items) || data.items.length === 0) {
-            throw new SyntaxError(`The items field must be a non-empty array for PDP events: ${JSON.stringify(data)}`);
+            throw new SyntaxError(`The items field must be a non-empty array: ${JSON.stringify(data)}`);
         }
     }
 
