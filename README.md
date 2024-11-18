@@ -1,6 +1,6 @@
 # User Event Sink Connector for Javascript (Reference Implementation)
 
-This repository contains a reference implementation for processing and handling user events in TypeScript. It demonstrates best practices for event validation, processing, and type safety.;
+A reference implementation in Javascript demonstrating how to build a connector for sending user events to Moloco MCM's User Event ingestion API endpoint. This implementation showcases best practices for data validation, and error handling that you can adapt for your own user event data ingestion services.
 
 ## Purpose
 
