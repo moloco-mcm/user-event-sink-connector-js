@@ -32,34 +32,24 @@ const apiKey = process.env.API_KEY;
 const connector = new UserEventSinkConnector(platformId, apiHostname, apiKey);
 ```
 
-## Send Events
-This implementation demonstrates best practices for handling API errors with exponential backoff:
+### Send Events
+```typescript
+try {
+    // connector.send does exponential backoff retry
+    await connector.send(userEvent);
+    console.log(`Successfully sent event:`, userEvent);
+} catch (error) {
+    if (error.response) {
+        console.error('Error:', error.response.data);
+    } else {
+        console.error('Error:', error);
+    }
+}
+```
 
 ### Error Types
 - **SyntaxError**: Thrown when response parsing fails. These errors are immediately thrown as they indicate a fundamental problem that won't be resolved by retrying.
 - **Other Errors**: Network issues, rate limits, etc. These are handled with retries.
-
-### Retry Strategy
-```typescript
-const maxRetries = 3; // Maximum retry attempts
-let waitTime = 100; // Initial wait time (0.1 seconds)
-try {
-    await connector.send(event);
-} catch (error) {
-    // Handle errors
-}
-```
-
-## Supported Event Types
-
-- `HOME` - Home page events
-- `LAND` - Landing page events
-- `ITEM_PAGE_VIEW` - Product detail page views
-- `ADD_TO_CART` - Cart addition events
-- `ADD_TO_WISHLIST` - Wishlist addition events
-- `SEARCH` - Search events
-- `PAGE_VIEW` - Generic page view events
-- `PURCHASE` - Purchase events
 
 ## Development
 
