@@ -48,7 +48,7 @@ try {
 ```
 
 ### Error Types
-- **SyntaxError**: Thrown when response parsing fails. These errors are immediately thrown as they indicate a fundamental problem that won't be resolved by retrying.
+- **SyntaxError**: Thrown when the User Event data is invalid. These errors are immediately thrown as they indicate a fundamental problem that won't be resolved by retrying.
 - **Other Errors**: Network issues, rate limits, etc. These are handled with retries.
 
 ## Development
