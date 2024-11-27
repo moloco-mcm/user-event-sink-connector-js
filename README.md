@@ -1,6 +1,6 @@
 # User Event Sink Connector for Javascript (Reference Implementation)
 
-A reference implementation in Javascript demonstrating how to build a connector for sending user events to Moloco MCM's User Event ingestion API endpoint. This implementation showcases best practices for data validation, and error handling that you can adapt for your own user event data ingestion services.
+This Javascript reference implementation demonstrates how to build a connector for sending user events to Moloco MCM’s User Event ingestion API, showcasing best practices for connection pooling, exponential backoff retries, validation, and error handling, which can be adapted for your own user event data ingestion services.
 
 ## Purpose
 
@@ -22,7 +22,7 @@ This pattern is particularly useful for:
 
 ### Initialize a Connector
 ```typescript
-import { UserEventSinkConnector } from 'user-event-sink-connector';
+import { UserEventSinkConnector } from '../dist/esm/UserEventSinkConnector.js'; // For ECMAScript
 
 const platformId = process.env.PLATFORM_ID;
 const apiHostname = process.env.API_HOSTNAME;

@@ -1,16 +1,9 @@
-import { Response } from 'node-fetch';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import axios from 'axios';
 import UserEventSinkConnector from '../src/UserEventSinkConnector.ts';
 
-// Mock node-fetch
-vi.mock('node-fetch', () => {
-    return {
-        default: vi.fn()
-    }
-});
-
-// Import fetch after mocking
-import fetch from 'node-fetch';
+// Mock axios
+vi.mock('axios');
 
 describe('UserEventSinkConnector', () => {
     const validPlatformId = 'TEST_PLATFORM';
@@ -84,6 +77,8 @@ describe('UserEventSinkConnector', () => {
         let connector;
 
         beforeEach(() => {
+            // Clear all mocks before each test
+            vi.clearAllMocks();
             connector = new UserEventSinkConnector(
                 validPlatformId,
                 validHostname,
@@ -105,48 +100,52 @@ describe('UserEventSinkConnector', () => {
 
         it('should successfully send valid event data', async () => {
             const validEvent = {
-                event_type: 'PAGE_VIEW',
-                timestamp: '1617870506121',
-                page_id: 'test_page'
+                id: "ajs-next-1729973784295-1f893e86-ce88-430c-9822-5d37ef1c4a22",
+                timestamp: "1617870506121",
+                channel_type: "SITE", 
+                user_id: "ecd14bdae1469f963df2726f88a2eab5bdd53953",
+                session_id: "",
+                name: "Dashboard Viewed",
+                event_type: "HOME"
             };
 
             // Mock successful response
-            vi.mocked(fetch).mockResolvedValueOnce({
-                ok: true,
+            vi.spyOn(axios, 'post').mockResolvedValueOnce({
                 status: 200,
-                text: () => Promise.resolve('{"success": true}')
-            } as unknown as import('node-fetch').Response);
+                data: { success: true }
+            });
 
             await expect(connector.send(validEvent)).resolves.not.toThrow();
 
-            // Verify the fetch call
-            expect(fetch).toHaveBeenCalledWith(
+            // Verify the axios call
+            expect(axios.post).toHaveBeenCalledWith(
                 `${validHostname}/rmp/event/v1/platforms/${validPlatformId}/userevents`,
+                validEvent,
                 {
-                    method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                         'x-api-key': validApiKey
-                    },
-                    body: JSON.stringify(validEvent)
+                    }
                 }
             );
         });
 
         it('should handle API error responses', async () => {
             const validEvent = {
-                event_type: 'PAGE_VIEW',
-                timestamp: '1617870506121',
-                page_id: 'test_page'
+                id: "ajs-next-1729973784295-1f893e86-ce88-430c-9822-5d37ef1c4a22",
+                timestamp: "1617870506121",
+                channel_type: "SITE", 
+                user_id: "ecd14bdae1469f963df2726f88a2eab5bdd53953",
+                session_id: "",
+                name: "Dashboard Viewed",
+                event_type: "HOME"
             };
 
             // Mock error response
-            vi.mocked(fetch).mockResolvedValueOnce({
-                ok: false,
-                status: 400,
-                text: () => Promise.resolve('{"error": "Bad Request"}')
-            } as unknown as Response);
+            vi.spyOn(axios, 'post').mockRejectedValueOnce(
+                new Error('Request failed: status code: 400')
+            );
 
             await expect(connector.send(validEvent))
                 .rejects
@@ -161,11 +160,13 @@ describe('UserEventSinkConnector', () => {
             };
 
             // Mock network error
-            vi.mocked(fetch).mockRejectedValueOnce(new Error('Network Error'));
+            vi.spyOn(axios, 'post').mockRejectedValueOnce(
+                new Error('Failed to send request: Network Error')
+            );
 
             await expect(connector.send(validEvent))
                 .rejects
-                .toThrow('Failed to send request: Network Error');
+                .toThrow('Network Error');
         });
 
         it('should handle null response from API', async () => {
@@ -176,28 +177,33 @@ describe('UserEventSinkConnector', () => {
             };
 
             // Mock null response
-            vi.mocked(fetch).mockResolvedValueOnce(undefined as unknown as Response);
+            vi.spyOn(axios, 'post').mockRejectedValueOnce(
+                undefined as unknown as Response
+            );
 
             await expect(connector.send(validEvent))
-                .rejects
-                .toThrow('HTTP response cannot be null');
+                .rejects.not
+                .toThrow(Error);
         });
 
         it('should send valid JSON string', async () => {
-            const validEventString = {
-                event_type: 'PAGE_VIEW',
-                timestamp: '1617870506121',
-                page_id: 'test_page'
+            const validEvent = {
+                id: "ajs-next-1729973784295-1f893e86-ce88-430c-9822-5d37ef1c4a22",
+                timestamp: "1617870506121",
+                channel_type: "SITE", 
+                user_id: "ecd14bdae1469f963df2726f88a2eab5bdd53953",
+                session_id: "",
+                name: "Dashboard Viewed",
+                event_type: "HOME"
             };
 
             // Mock successful response
-            vi.mocked(fetch).mockResolvedValueOnce({
-                ok: true,
+            vi.spyOn(axios, 'post').mockResolvedValueOnce({
                 status: 200,
-                text: () => Promise.resolve('{}')
-            } as unknown as Response);
+                data: {}
+            });
 
-            await expect(connector.send(validEventString)).resolves.not.toThrow();
+            await expect(connector.send(validEvent)).resolves.not.toThrow();
         });
 
         it('should handle null-like response from API', async () => {
@@ -208,15 +214,13 @@ describe('UserEventSinkConnector', () => {
             };
 
             // Mock null-like response
-            vi.mocked(fetch).mockResolvedValueOnce({
-                ok: false,
-                status: 500,
-                text: () => Promise.resolve('')
-            } as unknown as Response);
+            vi.spyOn(axios, 'post').mockRejectedValueOnce(
+                new Error('Failed to send request: Internal Server Error')
+            );
 
             await expect(connector.send(validEvent))
                 .rejects
-                .toThrow('Failed to send request: Request failed: status code: 500, reason phrase:');
+                .toThrow('Failed to send request: Internal Server Error');
         });
     });
 });

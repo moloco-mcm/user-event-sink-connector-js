@@ -1,5 +1,19 @@
+// For ECMAScript
 import 'dotenv/config';
 import { UserEventSinkConnector } from '../dist/esm/UserEventSinkConnector.js';
+if (import.meta.url === new URL(import.meta.url).href) {
+    main().catch(console.error);
+}
+export default main;
+
+
+// For CommonJS
+// require('dotenv').config();
+// const { UserEventSinkConnector } = require('../dist/cjs/UserEventSinkConnector.js');
+// if (require.main === module) {
+//     main().catch(console.error);
+// }
+// module.exports = main;
 
 async function main() {
     // Get environment variables with defaults
@@ -119,10 +133,3 @@ async function main() {
         console.error('Error:', error);
     }
 }
-
-// Run the main function
-if (import.meta.url === new URL(import.meta.url).href) {
-    main().catch(console.error);
-}
-
-// export default main;

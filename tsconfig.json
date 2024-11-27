@@ -20,9 +20,10 @@
     "allowJs": true,
     "checkJs": true,
     "isolatedModules": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["vitest/globals"]
   },
-  "include": ["src/**/*"],
+  "include": ["src"],
   "exclude": [
     "src/main.js",
     "node_modules",

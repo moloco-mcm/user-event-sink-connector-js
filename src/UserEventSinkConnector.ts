@@ -1,5 +1,5 @@
 import UserEventUtils from './UserEventUtils.js';
-import fetch, { Response } from 'node-fetch';
+import axios from 'axios';
 
 
 /**
@@ -72,9 +72,6 @@ export class UserEventSinkConnector {
             throw new SyntaxError('The data cannot be null or empty');
         }
 
-        // // Convert string to JSON if necessary
-        // const jsonData = typeof data === 'string' ? JSON.parse(data) : data;
-
         // Validate the data
         this.utils.validateData(data);
 
@@ -87,43 +84,17 @@ export class UserEventSinkConnector {
         const url = `${this.eventApiHostname}/rmp/event/v1/platforms/${this.platformID}/userevents`;
 
         try {
-            const response = await fetch(url, {
-                method: 'POST',
+            const response = await axios.post(url, filteredJson, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'x-api-key': this.eventApiKey
-                },
-                body: JSON.stringify(filteredJson)
+                }
             });
 
-            return await this.handleResponse(response);
+            return response.data;
         } catch (error) {
-            throw new Error(`Failed to send request: ${error instanceof Error ? error.message : String(error)}`);
-        }
-    }
-
-    /**
-     * Processes an HTTP response and returns the content if successful.
-     * 
-     * @private
-     * @param {Response} response - The fetch Response object
-     * @returns {Promise<string>} The response body if the request was successful
-     * @throws {Error} If the response is null or the request failed (non-2xx status)
-     */
-    async handleResponse(response: Response) {
-        if (!response) {
-            throw new Error('HTTP response cannot be null');
-        }
-
-        const responseBody = await response.text();
-
-        if (response.ok) { // status >= 200 && status < 300
-            return responseBody;
-        } else {
-            throw new Error(
-                `Request failed: status code: ${response.status}, reason phrase: ${responseBody}`
-            );
+            throw error;
         }
     }
 
