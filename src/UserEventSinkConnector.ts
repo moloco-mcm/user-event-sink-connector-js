@@ -83,18 +83,31 @@ export class UserEventSinkConnector {
 
         const url = `${this.eventApiHostname}/rmp/event/v1/platforms/${this.platformID}/userevents`;
 
-        try {
-            const response = await axios.post(url, filteredJson, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'x-api-key': this.eventApiKey
-                }
-            });
+        const maxRetries = 3;
+        let retryCount = 0;
+        let waitTimeMilliseconds = 100; // Start with 0.1 seconds
 
-            return response.data;
-        } catch (error) {
-            throw error;
+        while (retryCount < maxRetries) {
+            try {
+                const response = await axios.post(url, filteredJson, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'x-api-key': this.eventApiKey
+                    }
+                });
+
+                return response.data; // Success - return response
+            } catch (error) {
+                if (retryCount === maxRetries - 1) {
+                    throw error; // Rethrow error after max retries
+                }
+
+                console.log(`Retry ${retryCount + 1} after ${waitTimeMilliseconds}ms`);
+                await new Promise(resolve => setTimeout(resolve, waitTimeMilliseconds));
+                waitTimeMilliseconds *= 2; // Exponential backoff
+                retryCount++;
+            }
         }
     }
 

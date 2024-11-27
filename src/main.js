@@ -100,36 +100,15 @@ async function main() {
         ];
 
         for (const userEvent of userEvents) {
-            const maxRetries = 3;
-            let retryCount = 0;
-            let waitTime = 100; // Start with 0.1 seconds
-
-            while (retryCount < maxRetries) {
-                try {
-                    const response = await connector.send(userEvent);
-                    console.log(`Successfully sent event:`, userEvent);
-                    // console.log('Response body:', response);
-                    break; // Success - exit retry loop
-                } catch (error) {
-                    if (error instanceof SyntaxError) {
-                        // JSON parsing error - throw immediately
-                        throw error;
-                    }
-                    
-                    // Other errors - retry with backoff
-                    retryCount++;
-                    if (retryCount === maxRetries) {
-                        console.error(`Failed after ${maxRetries} retries for event:`, userEvent);
-                        throw error;
-                    }
-                    
-                    console.log(`Retry ${retryCount} after ${waitTime}ms`);
-                    await new Promise(resolve => setTimeout(resolve, waitTime));
-                    waitTime *= 2; // Exponential backoff
-                }
-            }
+            const response = await connector.send(userEvent);
+            console.log(`Successfully sent event:`, userEvent);
+            // console.log('Response body:', response);
         }
     } catch (error) {
-        console.error('Error:', error);
+        if (error.response) {
+            console.error('Error:', error.response.data);
+        } else {
+            console.error('Error:', error);
+        }
     }
 }
