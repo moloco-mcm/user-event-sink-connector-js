@@ -103,7 +103,7 @@ export class UserEventSinkConnector {
                     throw error; // Rethrow error after max retries
                 }
 
-                console.log(`Retry ${retryCount + 1} after ${waitTimeMilliseconds}ms`);
+                // console.log(`Retry ${retryCount + 1} after ${waitTimeMilliseconds}ms`);
                 await new Promise(resolve => setTimeout(resolve, waitTimeMilliseconds));
                 waitTimeMilliseconds *= 2; // Exponential backoff
                 retryCount++;

@@ -23,6 +23,7 @@ This pattern is particularly useful for:
 ### Initialize a Connector
 ```typescript
 import { UserEventSinkConnector } from '../dist/esm/UserEventSinkConnector.js'; // For ECMAScript
+const { UserEventSinkConnector } = require('../dist/cjs/UserEventSinkConnector.js'); // For CommonJs
 
 const platformId = process.env.PLATFORM_ID;
 const apiHostname = process.env.API_HOSTNAME;
@@ -45,14 +46,7 @@ let waitTime = 100; // Initial wait time (0.1 seconds)
 try {
     await connector.send(event);
 } catch (error) {
-    if (error instanceof SyntaxError) {
-        throw error; // Don't retry parsing errors
-    }
-    // Exponential backoff for other errors
-    waitTime = 2; // Doubles wait time each attempt
-    // 1st retry: 100ms
-    // 2nd retry: 200ms
-    // 3rd retry: 400ms
+    // Handle errors
 }
 ```
 
