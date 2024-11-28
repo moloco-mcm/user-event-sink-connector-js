@@ -16,6 +16,14 @@ describe('UserEventSinkConnector', () => {
     });
 
     describe('constructor validation', () => {
+        it('should throw error for zero maxRetry', () => {
+            expect(() => new UserEventSinkConnector(
+                validPlatformId,
+                validHostname, 
+                validApiKey
+            ).setMaxRetries(0)).toThrow('maxRetries should be greater than zero(0)');
+        });
+
         it('should throw error for null platformId', () => {
             expect(() => new UserEventSinkConnector(
                 null as unknown as string,
@@ -83,7 +91,7 @@ describe('UserEventSinkConnector', () => {
                 validPlatformId,
                 validHostname,
                 validApiKey
-            );
+            ).setMaxRetries(1); // Turn off retries during unit tests.
         });
 
         it('should throw error for null data', async () => {
@@ -149,7 +157,7 @@ describe('UserEventSinkConnector', () => {
 
             await expect(connector.send(validEvent))
                 .rejects
-                .toThrow('Request failed: status code: 400');
+                .toThrowError('Request failed: status code: 400');
         });
 
         it('should handle network errors', async () => {

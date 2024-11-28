@@ -17,10 +17,12 @@ import axios from 'axios';
  * ```
  */
 export class UserEventSinkConnector {
+    private readonly DEFAULT_MAX_RETRIES = 3;
     private readonly platformID: string;
     private readonly eventApiHostname: string;
     private readonly eventApiKey: string;
     private readonly utils: UserEventUtils;
+    private maxRetries = this.DEFAULT_MAX_RETRIES;
 
     /**
      * Creates a new instance of UserEventSinkConnector.
@@ -39,8 +41,21 @@ export class UserEventSinkConnector {
         this.platformID = this.validateParameter('platformID', platformID);
         this.eventApiHostname = this.validateParameter('eventApiHostname', eventApiHostname);
         this.eventApiKey = this.validateParameter('eventApiKey', eventApiKey);
-        
         this.utils = new UserEventUtils();
+    }
+
+    /**
+     * Sets the maximum number of retries for sending user events.
+     * 
+     * @param {number} maxRetries - The maximum number of retries
+     * @returns {UserEventSinkConnector} This instance for method chaining
+     */
+    setMaxRetries(maxRetries: number): UserEventSinkConnector {
+        if (maxRetries < 1) {
+            throw new SyntaxError('maxRetries should be greater than zero(0)')
+        }
+        this.maxRetries = maxRetries;
+        return this;
     }
 
     /**
@@ -83,11 +98,10 @@ export class UserEventSinkConnector {
 
         const url = `${this.eventApiHostname}/rmp/event/v1/platforms/${this.platformID}/userevents`;
 
-        const maxRetries = 3;
         let retryCount = 0;
         let waitTimeMilliseconds = 100; // Start with 0.1 seconds
 
-        while (retryCount < maxRetries) {
+        while (retryCount < this.maxRetries) {
             try {
                 const response = await axios.post(url, filteredJson, {
                     headers: {
@@ -99,7 +113,7 @@ export class UserEventSinkConnector {
 
                 return response.data; // Success - return response
             } catch (error) {
-                if (retryCount === maxRetries - 1) {
+                if (retryCount === this.maxRetries - 1) {
                     throw error; // Rethrow error after max retries
                 }
 
