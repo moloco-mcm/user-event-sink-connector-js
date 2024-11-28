@@ -15,7 +15,6 @@ This reference implementation demonstrates:
 
 This pattern is particularly useful for:
 - Handling network instability
-- Managing rate limits
 - Dealing with temporary service unavailability
 
 ## Implementation Examples
