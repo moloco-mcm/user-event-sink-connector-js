@@ -106,9 +106,9 @@ async function main() {
         }
     } catch (error) {
         if (error.response) {
-            console.error('Error:', error.response.data);
+            console.error('ERROR:', error.response.data);
         } else {
-            console.error('Error:', error);
+            console.error('ERROR:', error.message);
         }
     }
 }

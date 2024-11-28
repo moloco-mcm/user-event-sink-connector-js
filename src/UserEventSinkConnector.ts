@@ -75,7 +75,7 @@ export class UserEventSinkConnector {
     }
 
     /**
-     * Sends event data to the specified endpoint.
+     * Sends event data to the specified endpoint with jitter added to the exponential backoff.
      * Validates, filters, and processes the data before sending.
      * 
      * @param {Record<string, any>} data - Object containing the event data
@@ -116,10 +116,10 @@ export class UserEventSinkConnector {
                 if (retryCount === this.maxRetries - 1) {
                     throw error; // Rethrow error after max retries
                 }
-
-                // console.log(`Retry ${retryCount + 1} after ${waitTimeMilliseconds}ms`);
-                await new Promise(resolve => setTimeout(resolve, waitTimeMilliseconds));
-                waitTimeMilliseconds *= 2; // Exponential backoff
+                const jitter = Math.floor(Math.random() * 100); // jitter
+                console.log(`Retry ${retryCount + 1} after ${waitTimeMilliseconds + jitter}ms`);
+                await new Promise(resolve => setTimeout(resolve, waitTimeMilliseconds + jitter));
+                waitTimeMilliseconds = waitTimeMilliseconds * 2; // Exponential backoff
                 retryCount++;
             }
         }
