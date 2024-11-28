@@ -7,6 +7,5 @@
   "excludeInternal": true,
   "theme": "default",
   "readme": "README.md",
-  "plugin": ["typedoc-plugin-markdown"],
   "tsconfig": "./tsconfig.json"
 } 
