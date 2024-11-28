@@ -21,8 +21,11 @@ This pattern is particularly useful for:
 
 ### Initialize a Connector
 ```typescript
-import { UserEventSinkConnector } from '../dist/esm/UserEventSinkConnector.js'; // For ECMAScript
-const { UserEventSinkConnector } = require('../dist/cjs/UserEventSinkConnector.js'); // For CommonJs
+// For ECMAScript
+import { UserEventSinkConnector } from '../dist/esm/UserEventSinkConnector.js';
+
+// For CommonJs
+const { UserEventSinkConnector } = require('../dist/cjs/UserEventSinkConnector.js');
 
 const platformId = process.env.PLATFORM_ID;
 const apiHostname = process.env.API_HOSTNAME;
