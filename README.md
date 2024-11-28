@@ -37,7 +37,7 @@ const connector = new UserEventSinkConnector(platformId, apiHostname, apiKey);
 ### Send Events
 ```typescript
 try {
-    // connector.send does exponential backoff retry
+    // The connector.send() method implements exponential backoff for retries.
     await connector.send(userEvent);
     console.log(`Successfully sent event:`, userEvent);
 } catch (error) {
