@@ -111,7 +111,7 @@ describe('UserEventSinkConnector', () => {
                 id: "ajs-next-1729973784295-1f893e86-ce88-430c-9822-5d37ef1c4a22",
                 timestamp: "1617870506121",
                 channel_type: "SITE", 
-                user_id: "ecd14bdae1469f963df2726f88a2eab5bdd53953",
+                user_id: "shoppers_hashed_user_id",
                 session_id: "",
                 name: "Dashboard Viewed",
                 event_type: "HOME"
@@ -144,7 +144,7 @@ describe('UserEventSinkConnector', () => {
                 id: "ajs-next-1729973784295-1f893e86-ce88-430c-9822-5d37ef1c4a22",
                 timestamp: "1617870506121",
                 channel_type: "SITE", 
-                user_id: "ecd14bdae1469f963df2726f88a2eab5bdd53953",
+                user_id: "shoppers_hashed_user_id",
                 session_id: "",
                 name: "Dashboard Viewed",
                 event_type: "HOME"
@@ -199,7 +199,7 @@ describe('UserEventSinkConnector', () => {
                 id: "ajs-next-1729973784295-1f893e86-ce88-430c-9822-5d37ef1c4a22",
                 timestamp: "1617870506121",
                 channel_type: "SITE", 
-                user_id: "ecd14bdae1469f963df2726f88a2eab5bdd53953",
+                user_id: "shoppers_hashed_user_id",
                 session_id: "",
                 name: "Dashboard Viewed",
                 event_type: "HOME"
