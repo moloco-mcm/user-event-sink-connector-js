@@ -1,6 +1,6 @@
-# User Event Sink Connector in Javascript (Reference Implementation)
+# User Event Sink Connector in JavaScript (Reference Implementation)
 
-This Javascript reference implementation demonstrates how to build a connector for sending user events to Moloco MCM’s User Event ingestion API, showcasing best practices for connection pooling, exponential backoff retries, validation, and error handling, which can be adapted for your own user event data ingestion services.
+This JavaScript reference implementation demonstrates how to build a connector for sending user events to Moloco MCM’s User Event Ingestion API. It showcases best practices in connection pooling, exponential backoff retries, validation, and error handling, making it adaptable for your own user event data ingestion services.
 
 ## Purpose
 
